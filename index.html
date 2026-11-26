@@ -1,150 +1,519 @@
-<!-- Arquivo: index.html -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema de Cadastro de Motores - Projeto CentroWEG | SENAI</title>
+    <title>Documentação Técnica: Cadastro de Motores em Python | CentroWEG - SENAI</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
+    <!-- Cabeçalho Institucional -->
     <header class="header-weg">
         <div class="container">
             <div class="badges">
                 <span class="badge-weg">WEG</span>
                 <span class="badge-senai">SENAI • CentroWEG</span>
+                <span class="badge-local">Jaraguá do Sul - SC</span>
             </div>
-            <h1>Sistema de Cadastro de Motores em Python</h1>
-            <p class="subtitulo">Documentação técnica do protótipo monolítico em memória</p>
+            <h1>Sistema de Cadastro de Motores Elétricos em Python</h1>
+            <p class="subtitulo">
+                Documentação detalhada da arquitetura monolítica, estruturas de dados em memória e operações CRUD
+            </p>
         </div>
     </header>
 
+    <!-- Barra de Navegação Interna -->
+    <nav class="nav-weg">
+        <div class="container nav-links">
+            <a href="#contexto">1. Contexto & Local</a>
+            <a href="#arquitetura">2. Estrutura de Dados</a>
+            <a href="#funcoes">3. Anatomia das Funções</a>
+            <a href="#fluxo">4. Fluxo de Execução</a>
+            <a href="#codigo-fonte">5. Código Completo</a>
+        </div>
+    </nav>
+
     <main class="container">
-        
-        <!-- Seção de Contexto / Onde foi feito -->
-        <section class="card card-destaque">
-            <h2>Sobre o Projeto e Local de Desenvolvimento</h2>
+
+        <!-- 1. Contexto e Local -->
+        <section id="contexto" class="card card-destaque">
+            <div class="section-header">
+                <span class="numero-secao">01</span>
+                <h2>Contexto Acadêmico e Local de Desenvolvimento</h2>
+            </div>
             <p>
-                Este projeto foi desenvolvido durante as atividades de programação no <strong>CentroWEG</strong>, 
-                unidade educacional do <strong>SENAI</strong> localizada dentro do parque fabril da <strong>WEG</strong> 
-                em <strong>Jaraguá do Sul – SC</strong>.
+                Este software foi idealizado e desenvolvido durante a formação técnica no <strong>CentroWEG</strong>, 
+                escola do <strong>SENAI</strong> integrada diretamente ao parque fabril da <strong>WEG</strong> 
+                no município de <strong>Jaraguá do Sul, Santa Catarina</strong>.
             </p>
             <p>
-                O objetivo do algoritmo é simular o gerenciamento básico de motores elétricos industriais 
-                (cadastro, listagem, busca e exclusão) diretamente em memória, aplicando lógica de programação 
-                estruturada sem a necessidade de um banco de dados externo.
+                O desafio proposto consistiu em construir um sistema funcional de gerenciamento de motores industriais 
+                (inspirado nas linhas reais da empresa, como <em>W22 IR3 Premium</em>, <em>W21 Magnet</em> e <em>W50</em>), 
+                utilizando exclusivamente recursos nativos da linguagem <strong>Python</strong> em um único arquivo 
+                (arquitetura monolítica), sem dependência de bancos de dados externos (SQL/NoSQL) ou bibliotecas de terceiros.
             </p>
+
+            <div class="info-box-grid">
+                <div class="info-item">
+                    <strong>Instituição de Ensino</strong>
+                    <span>SENAI / CentroWEG</span>
+                </div>
+                <div class="info-item">
+                    <strong>Localização</strong>
+                    <span>Parque Fabril WEG • Jaraguá do Sul, SC</span>
+                </div>
+                <div class="info-item">
+                    <strong>Paradigma & Arquitetura</strong>
+                    <span>Programação Procedural / Monolítico em Memória</span>
+                </div>
+                <div class="info-item">
+                    <strong>Operações Implementadas</strong>
+                    <span>CRUD Completo (Create, Read, Update, Delete)</span>
+                </div>
+            </div>
         </section>
 
-        <!-- Seção de Explicação da Arquitetura -->
-        <section class="card">
-            <h2>Arquitetura e Funcionamento do Código</h2>
+        <!-- 2. Estrutura de Dados -->
+        <section id="arquitetura" class="card">
+            <div class="section-header">
+                <span class="numero-secao">02</span>
+                <h2>Estrutura de Dados e Armazenamento em Memória</h2>
+            </div>
             <p>
-                O script foi estruturado de forma <strong>monolítica</strong> (todo contido em um único arquivo <code>.py</code>) 
-                e dividido em responsabilidades claras utilizando funções e estruturas nativas do Python:
+                Para substituir um banco de dados relacional durante a fase de testes, o programa combina duas estruturas 
+                fundamentais do Python: <strong>Listas (Arrays Dinâmicos)</strong> e <strong>Dicionários (Chave-Valor)</strong>.
             </p>
 
             <div class="grid-conceitos">
                 <div class="conceito-item">
-                    <h3>1. Armazenamento (Array + Dicionários)</h3>
+                    <h3>Array Global (<code>motores = [...]</code>)</h3>
                     <p>
-                        A variável global <code>motores = []</code> atua como um array dinâmico. Cada motor cadastrado 
-                        é armazenado como um dicionário contendo <code>id</code>, <code>modelo</code>, 
-                        <code>fabricante</code>, <code>potencia_cv</code>, <code>tensao_v</code> e <code>rpm</code>.
+                        Funciona como a "tabela" principal do sistema. Cada posição da lista armazena um registro completo 
+                        de motor. O array já inicia populado com 3 motores WEG para agilizar testes imediatos de listagem, 
+                        busca e edição.
                     </p>
                 </div>
 
                 <div class="conceito-item">
-                    <h3>2. Controle de ID Sequencial</h3>
+                    <h3>Dicionário por Registro (<code>dict</code>)</h3>
                     <p>
-                        A variável <code>proximo_id</code> garante que cada motor receba um identificador único 
-                        autoincremental, evitando conflitos mesmo após a exclusão de registros anteriores.
+                        Representa cada linha da tabela. Permite acesso rápido e semântico aos atributos técnicos do motor 
+                        através de chaves nomeadas: <code>id</code>, <code>modelo</code>, <code>fabricante</code>, 
+                        <code>potencia_cv</code>, <code>tensao_v</code> e <code>rpm</code>.
                     </p>
                 </div>
 
                 <div class="conceito-item">
-                    <h3>3. Tratamento de Exceções</h3>
+                    <h3>Chave Primária (<code>proximo_id</code>)</h3>
                     <p>
-                        Blocos <code>try / except ValueError</code> protegem a entrada de dados numéricos 
-                        (Potência, Tensão, RPM e ID), impedindo que o sistema feche inesperadamente caso um texto seja digitado.
+                        Simula o <code>AUTO_INCREMENT</code> de bancos de dados. Inicia em <code>4</code> (após os 3 itens 
+                        iniciais) e apenas incrementa. Se o ID 2 for excluído, o próximo cadastro recebe ID 4, evitando 
+                        duplicidade de identificadores.
                     </p>
                 </div>
 
                 <div class="conceito-item">
-                    <h3>4. List Comprehension na Busca</h3>
+                    <h3>Tipagem e Integridade</h3>
                     <p>
-                        A função <code>buscar_motor()</code> percorre o array comparando textos em minúsculo 
-                        (<code>.lower()</code>), permitindo encontrar motores por trechos do modelo ou fabricante.
+                        Os dados são convertidos para seus tipos corretos antes de serem salvos: strings limpas com 
+                        <code>.strip()</code>, ponto flutuante (<code>float</code>) para potência em CV e inteiros 
+                        (<code>int</code>) para tensão (Volts) e rotação (RPM).
                     </p>
+                </div>
+            </div>
+
+            <div class="tabela-wrapper">
+                <h3>Dicionário de Campos do Objeto Motor</h3>
+                <table class="tabela-weg">
+                    <thead>
+                        <tr>
+                            <th>Chave</th>
+                            <th>Tipo Python</th>
+                            <th>Exemplo Real</th>
+                            <th>Finalidade Técnica</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>"id"</code></td>
+                            <td><code>int</code></td>
+                            <td><code>1</code></td>
+                            <td>Identificador único imutável usado para localizar o motor nas operações de edição e exclusão.</td>
+                        </tr>
+                        <tr>
+                            <td><code>"modelo"</code></td>
+                            <td><code>str</code></td>
+                            <td><code>"W22 IR3 Premium"</code></td>
+                            <td>Código ou linha comercial do motor elétrico.</td>
+                        </tr>
+                        <tr>
+                            <td><code>"fabricante"</code></td>
+                            <td><code>str</code></td>
+                            <td><code>"WEG"</code></td>
+                            <td>Marca fabricante do equipamento.</td>
+                        </tr>
+                        <tr>
+                            <td><code>"potencia_cv"</code></td>
+                            <td><code>float</code></td>
+                            <td><code>10.0</code></td>
+                            <td>Potência mecânica nominal medida em Cavalos-Vapor (aceita valores decimais como 0.5 ou 7.5).</td>
+                        </tr>
+                        <tr>
+                            <td><code>"tensao_v"</code></td>
+                            <td><code>int</code></td>
+                            <td><code>380</code></td>
+                            <td>Tensão elétrica de alimentação nominal em Volts (ex: 220V, 380V, 440V).</td>
+                        </tr>
+                        <tr>
+                            <td><code>"rpm"</code></td>
+                            <td><code>int</code></td>
+                            <td><code>1750</code></td>
+                            <td>Velocidade angular nominal do eixo em Rotações Por Minuto.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- 3. Anatomia das Funções -->
+        <section id="funcoes" class="card">
+            <div class="section-header">
+                <span class="numero-secao">03</span>
+                <h2>Anatomia Detalhada das Funções (CRUD)</h2>
+            </div>
+            <p>
+                Cada funcionalidade foi isolada em uma função específica para manter o código legível e modular, 
+                mesmo estando dentro de um único arquivo.
+            </p>
+
+            <div class="lista-funcoes-detalhada">
+                <article class="funcao-bloco">
+                    <div class="funcao-titulo">
+                        <span class="tag-crud create">CREATE</span>
+                        <h3><code>cadastrar_motor()</code></h3>
+                    </div>
+                    <ul>
+                        <li><strong>Escopo Global:</strong> Utiliza a instrução <code>global proximo_id</code> para modificar o contador externo dentro do escopo local da função.</li>
+                        <li><strong>Validação de Campos Vazios:</strong> Verifica <code>if not modelo or not fabricante:</code> impedindo registros incompletos.</li>
+                        <li><strong>Blindagem contra Erros (<code>try/except</code>):</strong> Caso o usuário digite letras nos campos de potência, tensão ou RPM, a exceção <code>ValueError</code> é capturada, exibe um alerta amigável e aborta o cadastro com <code>return</code> sem travar o sistema.</li>
+                        <li><strong>Persistência em Memória:</strong> Adiciona o dicionário ao final da lista com <code>motores.append(motor)</code> e incrementa <code>proximo_id += 1</code>.</li>
+                    </ul>
+                </article>
+
+                <article class="funcao-bloco">
+                    <div class="funcao-titulo">
+                        <span class="tag-crud read">READ</span>
+                        <h3><code>listar_motores()</code></h3>
+                    </div>
+                    <ul>
+                        <li><strong>Guarda de Lista Vazia:</strong> Checa <code>if not motores:</code> antes de tentar iterar, informando caso todos os registros tenham sido apagados.</li>
+                        <li><strong>Formatação via f-strings:</strong> Percorre cada dicionário <code>m</code> no array <code>motores</code> e imprime todos os parâmetros técnicos alinhados em uma única linha legível no terminal.</li>
+                    </ul>
+                </article>
+
+                <article class="funcao-bloco">
+                    <div class="funcao-titulo">
+                        <span class="tag-crud search">SEARCH</span>
+                        <h3><code>buscar_motor()</code></h3>
+                    </div>
+                    <ul>
+                        <li><strong>Normalização Case-Insensitive:</strong> Converte tanto o termo digitado pelo usuário quanto os valores armazenados para letras minúsculas usando <code>.lower()</code>. Assim, buscar por <code>"weg"</code> encontra <code>"WEG"</code>.</li>
+                        <li><strong>List Comprehension:</strong> Filtra a lista em uma única expressão Python (<code>[m for m in motores if termo in ...]</code>), permitindo busca por substring (trechos parciais do nome ou modelo).</li>
+                    </ul>
+                </article>
+
+                <article class="funcao-bloco">
+                    <div class="funcao-titulo">
+                        <span class="tag-crud update">UPDATE</span>
+                        <h3><code>editar_motor()</code></h3>
+                    </div>
+                    <ul>
+                        <li><strong>UX no Terminal (Manter Valor Atual):</strong> Ao localizar o dicionário pelo <code>id</code>, o sistema exibe o valor atual entre colchetes, por exemplo: <code>Novo modelo [W22 IR3 Premium]:</code>.</li>
+                        <li><strong>Atualização Seletiva:</strong> Se o usuário apenas pressionar <code>ENTER</code> (string vazia), a condição <code>if novo_modelo:</code> é falsa e o dado original é preservado intacto. Apenas os campos preenchidos são sobrescritos por referência direta no dicionário.</li>
+                    </ul>
+                </article>
+
+                <article class="funcao-bloco">
+                    <div class="funcao-titulo">
+                        <span class="tag-crud delete">DELETE</span>
+                        <h3><code>excluir_motor()</code></h3>
+                    </div>
+                    <ul>
+                        <li><strong>Rastreamento de Índice com <code>enumerate()</code>:</strong> Como a exclusão em listas Python exige a posição (índice) do elemento, o laço <code>for i, m in enumerate(motores):</code> obtém simultaneamente o índice <code>i</code> e o dicionário <code>m</code>.</li>
+                        <li><strong>Remoção Segura:</strong> Ao encontrar o <code>id</code> correspondente, <code>motores.pop(i)</code> remove o item da memória e retorna o objeto removido para exibir a confirmação com o nome do modelo apagado.</li>
+                    </ul>
+                </article>
+            </div>
+        </section>
+
+        <!-- 4. Fluxo de Execução -->
+        <section id="fluxo" class="card">
+            <div class="section-header">
+                <span class="numero-secao">04</span>
+                <h2>Fluxo de Execução e Ciclo de Vida</h2>
+            </div>
+            <div class="fluxo-passos">
+                <div class="passo">
+                    <div class="passo-num">1</div>
+                    <div class="passo-texto">
+                        <h4>Ponto de Entrada (<code>if __name__ == "__main__":</code>)</h4>
+                        <p>Garante que o loop interativo <code>menu()</code> só seja iniciado quando o arquivo for executado diretamente no terminal, permitindo importar suas funções em outros scripts caso necessário.</p>
+                    </div>
+                </div>
+                <div class="passo">
+                    <div class="passo-num">2</div>
+                    <div class="passo-texto">
+                        <h4>Loop Infinito Controlado (<code>while True</code>)</h4>
+                        <p>A função <code>menu()</code> exibe continuamente as 6 opções disponíveis. Após concluir qualquer operação (cadastrar, listar, editar, etc.), o fluxo retorna automaticamente ao menu principal.</p>
+                    </div>
+                </div>
+                <div class="passo">
+                    <div class="passo-num">3</div>
+                    <div class="passo-texto">
+                        <h4>Encerramento Limpo (<code>break</code>)</h4>
+                        <p>Somente quando o usuário digita <code>0</code>, o comando <code>break</code> interrompe o laço <code>while True</code> e encerra a execução do processo Python na memória RAM.</p>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- Seção Detalhada das Funções -->
-        <section class="card">
-            <h2>Mapeamento das Funções (CRUD em Memória)</h2>
-            <table class="tabela-funcoes">
-                <thead>
-                    <tr>
-                        <th>Função</th>
-                        <th>Operação</th>
-                        <th>Descrição Técnica</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><code>cadastrar_motor()</code></td>
-                        <td>Create</td>
-                        <td>Coleta os dados técnicos via <code>input()</code>, valida os tipos numéricos e insere o dicionário na lista com <code>.append()</code>.</td>
-                    </tr>
-                    <tr>
-                        <td><code>listar_motores()</code></td>
-                        <td>Read</td>
-                        <td>Verifica se o array está vazio; caso contrário, itera sobre todos os dicionários exibindo as especificações formatadas.</td>
-                    </tr>
-                    <tr>
-                        <td><code>buscar_motor()</code></td>
-                        <td>Search</td>
-                        <td>Filtra registros por correspondência parcial de texto no modelo ou fabricante sem diferenciar maiúsculas e minúsculas.</td>
-                    </tr>
-                    <tr>
-                        <td><code>excluir_motor()</code></td>
-                        <td>Delete</td>
-                        <td>Localiza o índice do motor através do <code>id</code> informado usando <code>enumerate()</code> e o remove com <code>.pop()</code>.</td>
-                    </tr>
-                    <tr>
-                        <td><code>menu()</code></td>
-                        <td>Loop Principal</td>
-                        <td>Mantém a interface de terminal ativa via laço <code>while True</code> até que o usuário escolha a opção <code>0</code>.</td>
-                    </tr>
-                </tbody>
-            </table>
-        </section>
+        <!-- 5. Código Fonte Completo -->
+        <section id="codigo-fonte" class="card">
+            <div class="section-header-codigo">
+                <div class="section-header" style="margin-bottom: 0; border: none; padding: 0;">
+                    <span class="numero-secao">05</span>
+                    <h2>Código-Fonte Completo (<code>cadastro_motores.py</code>)</h2>
+                </div>
+                <button id="btn-copiar" class="btn-weg" onclick="copiarCodigo()">Copiar Código Python</button>
+            </div>
+            <p class="descricao-codigo">
+                Copie o código abaixo, salve como <code>cadastro_motores.py</code> e execute no terminal com <code>python cadastro_motores.py</code>:
+            </p>
+            <pre><code id="bloco-python"># Lista (array) global pré-preenchida com 3 motores WEG de exemplo para testes
+motores = [
+    {
+        "id": 1,
+        "modelo": "W22 IR3 Premium",
+        "fabricante": "WEG",
+        "potencia_cv": 10.0,
+        "tensao_v": 380,
+        "rpm": 1750,
+    },
+    {
+        "id": 2,
+        "modelo": "W21 Magnet IR5 Ultra",
+        "fabricante": "WEG",
+        "potencia_cv": 25.0,
+        "tensao_v": 440,
+        "rpm": 3540,
+    },
+    {
+        "id": 3,
+        "modelo": "W50 Industrial",
+        "fabricante": "WEG",
+        "potencia_cv": 150.0,
+        "tensao_v": 440,
+        "rpm": 1185,
+    },
+]
 
-        <!-- Exemplo Visual do Código -->
-        <section class="card">
-            <h2>Trecho Central da Estrutura de Dados</h2>
-            <p>Exemplo de como cada motor é estruturado dentro do array em Python:</p>
-            <pre><code>motor = {
-    "id": proximo_id,
-    "modelo": "W22 IR3 Premium",
-    "fabricante": "WEG",
-    "potencia_cv": 10.0,
-    "tensao_v": 380,
-    "rpm": 1750,
-}
-motores.append(motor)</code></pre>
+proximo_id = 4
+
+
+def cadastrar_motor():
+    global proximo_id
+    print("\n--- CADASTRAR NOVO MOTOR ---")
+    modelo = input("Modelo/Código do motor: ").strip()
+    fabricante = input("Fabricante (ex: WEG): ").strip()
+
+    if not modelo or not fabricante:
+        print("\n[ERRO] Modelo e fabricante são obrigatórios!")
+        return
+
+    try:
+        potencia = float(input("Potência (em CV): "))
+        tensao = int(input("Tensão nominal (em Volts, ex: 220, 380, 440): "))
+        rpm = int(input("Rotação (RPM): "))
+    except ValueError:
+        print("\n[ERRO] Potência, tensão e RPM devem ser valores numéricos!")
+        return
+
+    motor = {
+        "id": proximo_id,
+        "modelo": modelo,
+        "fabricante": fabricante,
+        "potencia_cv": potencia,
+        "tensao_v": tensao,
+        "rpm": rpm,
+    }
+
+    motores.append(motor)
+    proximo_id += 1
+    print(f"\n[SUCESSO] Motor '{modelo}' cadastrado com ID {motor['id']}!")
+
+
+def listar_motores():
+    print("\n--- LISTA DE MOTORES CADASTRADOS ---")
+    if not motores:
+        print("Nenhum motor cadastrado no momento.")
+        return
+
+    for m in motores:
+        print(
+            f"ID: {m['id']} | Modelo: {m['modelo']} | Fabricante: {m['fabricante']} | "
+            f"Potência: {m['potencia_cv']} CV | Tensão: {m['tensao_v']}V | {m['rpm']} RPM"
+        )
+
+
+def buscar_motor():
+    print("\n--- BUSCAR MOTOR ---")
+    termo = input("Digite o modelo ou fabricante para buscar: ").strip().lower()
+
+    encontrados = [
+        m
+        for m in motores
+        if termo in m["modelo"].lower() or termo in m["fabricante"].lower()
+    ]
+
+    if not encontrados:
+        print("Nenhum motor encontrado com esse termo.")
+        return
+
+    print(f"\nForam encontrados {len(encontrados)} motor(es):")
+    for m in encontrados:
+        print(
+            f"ID: {m['id']} | Modelo: {m['modelo']} | Fabricante: {m['fabricante']} | "
+            f"Potência: {m['potencia_cv']} CV | Tensão: {m['tensao_v']}V | {m['rpm']} RPM"
+        )
+
+
+def editar_motor():
+    listar_motores()
+    if not motores:
+        return
+
+    try:
+        id_editar = int(input("\nDigite o ID do motor que deseja editar: "))
+    except ValueError:
+        print("[ERRO] Digite um ID numérico válido.")
+        return
+
+    for m in motores:
+        if m["id"] == id_editar:
+            print(
+                f"\nEditando ID {m['id']} ({m['modelo']}). Pressione ENTER para manter o valor atual:"
+            )
+
+            novo_modelo = input(f"Novo modelo [{m['modelo']}]: ").strip()
+            novo_fabricante = input(f"Novo fabricante [{m['fabricante']}]: ").strip()
+            nova_potencia = input(f"Nova potência CV [{m['potencia_cv']}]: ").strip()
+            nova_tensao = input(f"Nova tensão V [{m['tensao_v']}]: ").strip()
+            novo_rpm = input(f"Nova rotação RPM [{m['rpm']}]: ").strip()
+
+            try:
+                if novo_modelo:
+                    m["modelo"] = novo_modelo
+                if novo_fabricante:
+                    m["fabricante"] = novo_fabricante
+                if nova_potencia:
+                    m["potencia_cv"] = float(nova_potencia)
+                if nova_tensao:
+                    m["tensao_v"] = int(nova_tensao)
+                if novo_rpm:
+                    m["rpm"] = int(novo_rpm)
+
+                print(f"\n[SUCESSO] Motor ID {id_editar} atualizado com sucesso!")
+            except ValueError:
+                print(
+                    "\n[ERRO] Valores numéricos inválidos. A edição foi cancelada."
+                )
+            return
+
+    print(f"\n[AVISO] Nenhum motor encontrado com o ID {id_editar}.")
+
+
+def excluir_motor():
+    listar_motores()
+    if not motores:
+        return
+
+    try:
+        id_excluir = int(input("\nDigite o ID do motor que deseja excluir: "))
+    except ValueError:
+        print("[ERRO] Digite um ID numérico válido.")
+        return
+
+    for i, m in enumerate(motores):
+        if m["id"] == id_excluir:
+            removido = motores.pop(i)
+            print(
+                f"\n[SUCESSO] Motor '{removido['modelo']}' (ID {id_excluir}) removido!"
+            )
+            return
+
+    print(f"\n[AVISO] Nenhum motor encontrado com o ID {id_excluir}.")
+
+
+def menu():
+    while True:
+        print("\n" + "=" * 40)
+        print("   SISTEMA DE CADASTRO DE MOTORES (WEG)")
+        print("=" * 40)
+        print("1. Cadastrar novo motor")
+        print("2. Listar todos os motores")
+        print("3. Buscar motor por modelo/fabricante")
+        print("4. Editar motor existente (por ID)")
+        print("5. Excluir motor (por ID)")
+        print("0. Sair")
+
+        opcao = input("\nEscolha uma opção: ").strip()
+
+        if opcao == "1":
+            cadastrar_motor()
+        elif opcao == "2":
+            listar_motores()
+        elif opcao == "3":
+            buscar_motor()
+        elif opcao == "4":
+            editar_motor()
+        elif opcao == "5":
+            excluir_motor()
+        elif opcao == "0":
+            print("\nEncerrando o sistema...")
+            break
+        else:
+            print("\n[ERRO] Opção inválida! Tente novamente.")
+
+
+if __name__ == "__main__":
+    menu()</code></pre>
         </section>
 
     </main>
 
+    <!-- Rodapé Institucional -->
     <footer class="footer-weg">
         <div class="container">
-            <p>Desenvolvido no <strong>CentroWEG / SENAI</strong> • Jaraguá do Sul, Santa Catarina</p>
-            <p class="footer-detalhe">Projeto de Lógica de Programação em Python</p>
+            <p class="footer-titulo">Desenvolvido no <strong>CentroWEG / SENAI</strong> • Jaraguá do Sul – Santa Catarina</p>
+            <p class="footer-detalhe">Projeto de Programação em Python • Sistema de Gerenciamento de Motores Elétricos</p>
         </div>
     </footer>
+
+    <script>
+        function copiarCodigo() {
+            const codigo = document.getElementById('bloco-python').innerText;
+            const botao = document.getElementById('btn-copiar');
+            navigator.clipboard.writeText(codigo).then(() => {
+                botao.innerText = 'Código Copiado!';
+                botao.classList.add('copiado');
+                setTimeout(() => {
+                    botao.innerText = 'Copiar Código Python';
+                    botao.classList.remove('copiado');
+                }, 2500);
+            });
+        }
+    </script>
 
 </body>
 </html>

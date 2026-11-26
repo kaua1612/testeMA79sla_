@@ -1,17 +1,19 @@
-/* Arquivo: style.css */
-/* Paleta de cores inspirada na identidade visual WEG */
+/* Paleta Oficial WEG (Azul Corporativo, Tons Industriais e Contrastes Técnicos) */
 :root {
     --weg-azul-principal: #00579D;
     --weg-azul-escuro: #003A6B;
+    --weg-azul-medio: #0072CE;
     --weg-azul-claro: #E6F0F8;
-    --weg-azul-destaque: #0072CE;
-    --fundo-pagina: #F4F6F9;
+    --weg-azul-borda: #B8D4EC;
+    --fundo-pagina: #F1F5F9;
     --branco: #FFFFFF;
-    --texto-principal: #1E293B;
-    --texto-secundario: #475569;
-    --borda-suave: #CBD5E1;
-    --fundo-codigo: #0F172A;
+    --texto-principal: #0F172A;
+    --texto-secundario: #334155;
+    --texto-suave: #64748B;
+    --borda-card: #CBD5E1;
+    --fundo-codigo: #0B132B;
     --texto-codigo: #E2E8F0;
+    --verde-sucesso: #15803D;
 }
 
 * {
@@ -20,172 +22,393 @@
     box-sizing: border-box;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 body {
-    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    font-family: 'Segoe UI', Roboto, -apple-system, BlinkMacSystemFont, sans-serif;
     background-color: var(--fundo-pagina);
     color: var(--texto-principal);
-    line-height: 1.6;
+    line-height: 1.65;
 }
 
 .container {
-    width: 90%;
-    max-width: 1000px;
+    width: 92%;
+    max-width: 1100px;
     margin: 0 auto;
 }
 
-/* Cabeçalho institucional */
+/* Cabeçalho WEG */
 .header-weg {
-    background: linear-gradient(135deg, var(--weg-azul-escuro) 0%, var(--weg-azul-principal) 100%);
+    background: linear-gradient(135deg, var(--weg-azul-escuro) 0%, var(--weg-azul-principal) 65%, var(--weg-azul-medio) 100%);
     color: var(--branco);
-    padding: 3rem 0;
-    border-bottom: 5px solid var(--weg-azul-destaque);
+    padding: 3.5rem 0 3rem;
+    border-bottom: 5px solid var(--weg-azul-medio);
 }
 
 .badges {
     display: flex;
     gap: 10px;
-    margin-bottom: 1rem;
+    margin-bottom: 1.2rem;
     flex-wrap: wrap;
 }
 
 .badge-weg {
     background-color: var(--branco);
     color: var(--weg-azul-principal);
-    font-weight: 800;
-    padding: 4px 12px;
+    font-weight: 900;
+    padding: 5px 14px;
     border-radius: 4px;
-    letter-spacing: 1px;
-    font-size: 0.9rem;
+    letter-spacing: 1.5px;
+    font-size: 0.95rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
 }
 
-.badge-senai {
-    background-color: rgba(255, 255, 255, 0.15);
+.badge-senai,
+.badge-local {
+    background-color: rgba(255, 255, 255, 0.14);
     color: var(--branco);
-    border: 1px solid rgba(255, 255, 255, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.35);
     font-weight: 600;
-    padding: 4px 12px;
+    padding: 5px 14px;
     border-radius: 4px;
     font-size: 0.9rem;
 }
 
 .header-weg h1 {
-    font-size: 2.1rem;
-    margin-bottom: 0.5rem;
+    font-size: 2.3rem;
+    font-weight: 700;
+    margin-bottom: 0.6rem;
+    letter-spacing: -0.5px;
 }
 
 .subtitulo {
-    font-size: 1.1rem;
+    font-size: 1.12rem;
     color: var(--weg-azul-claro);
+    max-width: 780px;
 }
 
-/* Conteúdo Principal e Cards */
+/* Navegação Fixa */
+.nav-weg {
+    background-color: var(--branco);
+    border-bottom: 1px solid var(--borda-card);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 6px rgba(0, 58, 107, 0.06);
+}
+
+.nav-links {
+    display: flex;
+    gap: 1.5rem;
+    padding: 0.85rem 0;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: var(--weg-azul-escuro);
+    font-weight: 600;
+    font-size: 0.92rem;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.nav-links a:hover {
+    background-color: var(--weg-azul-claro);
+    color: var(--weg-azul-principal);
+}
+
+/* Estrutura Principal */
 main {
     padding: 2.5rem 0;
     display: flex;
     flex-direction: column;
-    gap: 1.8rem;
+    gap: 2.2rem;
 }
 
 .card {
     background-color: var(--branco);
     border-radius: 8px;
-    padding: 2rem;
-    box-shadow: 0 2px 8px rgba(0, 58, 107, 0.08);
-    border: 1px solid var(--borda-suave);
+    padding: 2.2rem;
+    box-shadow: 0 4px 12px rgba(0, 58, 107, 0.06);
+    border: 1px solid var(--borda-card);
 }
 
 .card-destaque {
     border-left: 6px solid var(--weg-azul-principal);
-    background-color: var(--branco);
 }
 
-.card h2 {
-    color: var(--weg-azul-principal);
-    font-size: 1.4rem;
-    margin-bottom: 1rem;
-    padding-bottom: 0.5rem;
+.section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 1.2rem;
+    padding-bottom: 0.75rem;
     border-bottom: 2px solid var(--weg-azul-claro);
 }
 
+.numero-secao {
+    background-color: var(--weg-azul-principal);
+    color: var(--branco);
+    font-weight: 700;
+    font-size: 0.85rem;
+    padding: 4px 10px;
+    border-radius: 4px;
+}
+
+.card h2 {
+    color: var(--weg-azul-escuro);
+    font-size: 1.45rem;
+}
+
 .card p {
-    margin-bottom: 0.9rem;
     color: var(--texto-secundario);
+    margin-bottom: 1rem;
 }
 
-.card p:last-child {
-    margin-bottom: 0;
-}
-
-/* Grid de Conceitos */
-.grid-conceitos {
+/* Grid de Informações Institucionais */
+.info-box-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.info-item {
+    background-color: var(--weg-azul-claro);
+    padding: 1rem 1.2rem;
+    border-radius: 6px;
+    border: 1px solid var(--weg-azul-borda);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.info-item strong {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--weg-azul-principal);
+}
+
+.info-item span {
+    font-weight: 600;
+    color: var(--weg-azul-escuro);
+    font-size: 0.98rem;
+}
+
+/* Grid de Conceitos Técnicos */
+.grid-conceitos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     gap: 1.2rem;
-    margin-top: 1.2rem;
+    margin: 1.5rem 0;
 }
 
 .conceito-item {
-    background-color: var(--weg-azul-claro);
-    padding: 1.2rem;
+    background-color: #F8FAFC;
+    padding: 1.3rem;
     border-radius: 6px;
-    border-top: 3px solid var(--weg-azul-principal);
+    border: 1px solid var(--borda-card);
+    border-top: 4px solid var(--weg-azul-principal);
 }
 
 .conceito-item h3 {
     color: var(--weg-azul-escuro);
     font-size: 1.05rem;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.6rem;
 }
 
 .conceito-item p {
-    font-size: 0.92rem;
-    color: var(--texto-principal);
+    font-size: 0.93rem;
+    margin-bottom: 0;
 }
 
-/* Tabela de Funções */
-.tabela-funcoes {
+/* Tabela de Dados */
+.tabela-wrapper {
+    margin-top: 1.8rem;
+    overflow-x: auto;
+}
+
+.tabela-wrapper h3 {
+    color: var(--weg-azul-escuro);
+    margin-bottom: 0.8rem;
+    font-size: 1.15rem;
+}
+
+.tabela-weg {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 1rem;
+    font-size: 0.94rem;
 }
 
-.tabela-funcoes th {
+.tabela-weg th {
     background-color: var(--weg-azul-principal);
     color: var(--branco);
     text-align: left;
-    padding: 0.85rem 1rem;
+    padding: 0.9rem 1rem;
     font-weight: 600;
 }
 
-.tabela-funcoes td {
+.tabela-weg td {
     padding: 0.85rem 1rem;
-    border-bottom: 1px solid var(--borda-suave);
+    border-bottom: 1px solid var(--borda-card);
     color: var(--texto-secundario);
 }
 
-.tabela-funcoes tr:nth-child(even) {
-    background-color: var(--fundo-pagina);
+.tabela-weg tr:nth-child(even) {
+    background-color: #F8FAFC;
 }
 
-/* Formatação de Código */
+/* Blocos Detalhados das Funções CRUD */
+.lista-funcoes-detalhada {
+    display: flex;
+    flex-direction: column;
+    gap: 1.3rem;
+    margin-top: 1.2rem;
+}
+
+.funcao-bloco {
+    border: 1px solid var(--borda-card);
+    border-radius: 6px;
+    padding: 1.4rem;
+    background-color: #FAFBFD;
+}
+
+.funcao-titulo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 0.8rem;
+}
+
+.funcao-titulo h3 {
+    font-size: 1.15rem;
+    color: var(--weg-azul-escuro);
+}
+
+.tag-crud {
+    font-size: 0.75rem;
+    font-weight: 800;
+    padding: 3px 9px;
+    border-radius: 4px;
+    letter-spacing: 0.8px;
+    color: var(--branco);
+}
+
+.tag-crud.create { background-color: #00579D; }
+.tag-crud.read   { background-color: #0284C7; }
+.tag-crud.search { background-color: #0369A1; }
+.tag-crud.update { background-color: #1D4ED8; }
+.tag-crud.delete { background-color: #B91C1C; }
+
+.funcao-bloco ul {
+    padding-left: 1.3rem;
+    color: var(--texto-secundario);
+}
+
+.funcao-bloco li {
+    margin-bottom: 0.45rem;
+    font-size: 0.95rem;
+}
+
+/* Fluxo de Execução */
+.fluxo-passos {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    margin-top: 1rem;
+}
+
+.passo {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    background-color: var(--weg-azul-claro);
+    padding: 1.2rem;
+    border-radius: 6px;
+    border: 1px solid var(--weg-azul-borda);
+}
+
+.passo-num {
+    background-color: var(--weg-azul-principal);
+    color: var(--branco);
+    font-weight: 800;
+    min-width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+}
+
+.passo-texto h4 {
+    color: var(--weg-azul-escuro);
+    margin-bottom: 0.3rem;
+    font-size: 1.05rem;
+}
+
+.passo-texto p {
+    margin-bottom: 0;
+    font-size: 0.94rem;
+}
+
+/* Bloco de Código e Botão */
+.section-header-codigo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding-bottom: 0.8rem;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid var(--weg-azul-claro);
+}
+
+.btn-weg {
+    background-color: var(--weg-azul-principal);
+    color: var(--branco);
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 5px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn-weg:hover {
+    background-color: var(--weg-azul-escuro);
+}
+
+.btn-weg.copiado {
+    background-color: var(--verde-sucesso);
+}
+
 code {
     background-color: var(--weg-azul-claro);
     color: var(--weg-azul-escuro);
     padding: 2px 6px;
     border-radius: 4px;
-    font-family: 'Consolas', 'Courier New', monospace;
-    font-size: 0.9rem;
+    font-family: 'Consolas', 'Fira Code', 'Courier New', monospace;
+    font-size: 0.9em;
     font-weight: 600;
 }
 
 pre {
     background-color: var(--fundo-codigo);
     color: var(--texto-codigo);
-    padding: 1.2rem;
+    padding: 1.5rem;
     border-radius: 6px;
     overflow-x: auto;
-    margin-top: 1rem;
-    border-left: 4px solid var(--weg-azul-destaque);
+    border-left: 5px solid var(--weg-azul-medio);
+    font-size: 0.9rem;
+    line-height: 1.55;
 }
 
 pre code {
@@ -200,29 +423,33 @@ pre code {
     background-color: var(--weg-azul-escuro);
     color: var(--branco);
     text-align: center;
-    padding: 1.8rem 0;
+    padding: 2.2rem 0;
     margin-top: 2rem;
+    border-top: 4px solid var(--weg-azul-medio);
+}
+
+.footer-titulo {
+    font-size: 1rem;
+    margin-bottom: 0.3rem;
 }
 
 .footer-detalhe {
-    font-size: 0.85rem;
+    font-size: 0.88rem;
     color: var(--weg-azul-claro);
-    margin-top: 0.3rem;
 }
 
-/* Responsividade para telas menores */
-@media (max-width: 600px) {
+/* Responsividade */
+@media (max-width: 700px) {
     .header-weg h1 {
-        font-size: 1.6rem;
+        font-size: 1.7rem;
     }
 
     .card {
-        padding: 1.3rem;
+        padding: 1.4rem;
     }
 
-    .tabela-funcoes th,
-    .tabela-funcoes td {
-        padding: 0.6rem;
-        font-size: 0.85rem;
+    .section-header-codigo {
+        flex-direction: column;
+        align-items: flex-start;
     }
 }
