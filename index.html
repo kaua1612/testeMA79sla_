@@ -1,0 +1,150 @@
+<!-- Arquivo: index.html -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Cadastro de Motores - Projeto CentroWEG | SENAI</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header class="header-weg">
+        <div class="container">
+            <div class="badges">
+                <span class="badge-weg">WEG</span>
+                <span class="badge-senai">SENAI • CentroWEG</span>
+            </div>
+            <h1>Sistema de Cadastro de Motores em Python</h1>
+            <p class="subtitulo">Documentação técnica do protótipo monolítico em memória</p>
+        </div>
+    </header>
+
+    <main class="container">
+        
+        <!-- Seção de Contexto / Onde foi feito -->
+        <section class="card card-destaque">
+            <h2>Sobre o Projeto e Local de Desenvolvimento</h2>
+            <p>
+                Este projeto foi desenvolvido durante as atividades de programação no <strong>CentroWEG</strong>, 
+                unidade educacional do <strong>SENAI</strong> localizada dentro do parque fabril da <strong>WEG</strong> 
+                em <strong>Jaraguá do Sul – SC</strong>.
+            </p>
+            <p>
+                O objetivo do algoritmo é simular o gerenciamento básico de motores elétricos industriais 
+                (cadastro, listagem, busca e exclusão) diretamente em memória, aplicando lógica de programação 
+                estruturada sem a necessidade de um banco de dados externo.
+            </p>
+        </section>
+
+        <!-- Seção de Explicação da Arquitetura -->
+        <section class="card">
+            <h2>Arquitetura e Funcionamento do Código</h2>
+            <p>
+                O script foi estruturado de forma <strong>monolítica</strong> (todo contido em um único arquivo <code>.py</code>) 
+                e dividido em responsabilidades claras utilizando funções e estruturas nativas do Python:
+            </p>
+
+            <div class="grid-conceitos">
+                <div class="conceito-item">
+                    <h3>1. Armazenamento (Array + Dicionários)</h3>
+                    <p>
+                        A variável global <code>motores = []</code> atua como um array dinâmico. Cada motor cadastrado 
+                        é armazenado como um dicionário contendo <code>id</code>, <code>modelo</code>, 
+                        <code>fabricante</code>, <code>potencia_cv</code>, <code>tensao_v</code> e <code>rpm</code>.
+                    </p>
+                </div>
+
+                <div class="conceito-item">
+                    <h3>2. Controle de ID Sequencial</h3>
+                    <p>
+                        A variável <code>proximo_id</code> garante que cada motor receba um identificador único 
+                        autoincremental, evitando conflitos mesmo após a exclusão de registros anteriores.
+                    </p>
+                </div>
+
+                <div class="conceito-item">
+                    <h3>3. Tratamento de Exceções</h3>
+                    <p>
+                        Blocos <code>try / except ValueError</code> protegem a entrada de dados numéricos 
+                        (Potência, Tensão, RPM e ID), impedindo que o sistema feche inesperadamente caso um texto seja digitado.
+                    </p>
+                </div>
+
+                <div class="conceito-item">
+                    <h3>4. List Comprehension na Busca</h3>
+                    <p>
+                        A função <code>buscar_motor()</code> percorre o array comparando textos em minúsculo 
+                        (<code>.lower()</code>), permitindo encontrar motores por trechos do modelo ou fabricante.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seção Detalhada das Funções -->
+        <section class="card">
+            <h2>Mapeamento das Funções (CRUD em Memória)</h2>
+            <table class="tabela-funcoes">
+                <thead>
+                    <tr>
+                        <th>Função</th>
+                        <th>Operação</th>
+                        <th>Descrição Técnica</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>cadastrar_motor()</code></td>
+                        <td>Create</td>
+                        <td>Coleta os dados técnicos via <code>input()</code>, valida os tipos numéricos e insere o dicionário na lista com <code>.append()</code>.</td>
+                    </tr>
+                    <tr>
+                        <td><code>listar_motores()</code></td>
+                        <td>Read</td>
+                        <td>Verifica se o array está vazio; caso contrário, itera sobre todos os dicionários exibindo as especificações formatadas.</td>
+                    </tr>
+                    <tr>
+                        <td><code>buscar_motor()</code></td>
+                        <td>Search</td>
+                        <td>Filtra registros por correspondência parcial de texto no modelo ou fabricante sem diferenciar maiúsculas e minúsculas.</td>
+                    </tr>
+                    <tr>
+                        <td><code>excluir_motor()</code></td>
+                        <td>Delete</td>
+                        <td>Localiza o índice do motor através do <code>id</code> informado usando <code>enumerate()</code> e o remove com <code>.pop()</code>.</td>
+                    </tr>
+                    <tr>
+                        <td><code>menu()</code></td>
+                        <td>Loop Principal</td>
+                        <td>Mantém a interface de terminal ativa via laço <code>while True</code> até que o usuário escolha a opção <code>0</code>.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Exemplo Visual do Código -->
+        <section class="card">
+            <h2>Trecho Central da Estrutura de Dados</h2>
+            <p>Exemplo de como cada motor é estruturado dentro do array em Python:</p>
+            <pre><code>motor = {
+    "id": proximo_id,
+    "modelo": "W22 IR3 Premium",
+    "fabricante": "WEG",
+    "potencia_cv": 10.0,
+    "tensao_v": 380,
+    "rpm": 1750,
+}
+motores.append(motor)</code></pre>
+        </section>
+
+    </main>
+
+    <footer class="footer-weg">
+        <div class="container">
+            <p>Desenvolvido no <strong>CentroWEG / SENAI</strong> • Jaraguá do Sul, Santa Catarina</p>
+            <p class="footer-detalhe">Projeto de Lógica de Programação em Python</p>
+        </div>
+    </footer>
+
+</body>
+</html>
